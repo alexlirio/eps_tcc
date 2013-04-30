@@ -1,0 +1,17 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns:ui="http://java.sun.com/jsf/facelets"
+			 xmlns:p="http://primefaces.org/ui">
+	<p:menubar autoDisplay="false">
+		<p:submenu label="#{msgs['menu.ajuda']}" icon="ui-icon-help">
+			<p:menuitem value="#{msgs['menu.alterar.senha']}" url="alterarSenha.xhtml" />
+			<p:menuitem value="#{msgs['menu.suporte']}" url="suporte.xhtml" />
+		</p:submenu>
+		<p:menuitem value="#{loginFacade.usuarioLogado}, #{msgs['menu.logout']}." onclick="confirmationLogoff.show()"
+			icon="ui-icon-extlink" style="position: absolute; right: 4px;" />
+	</p:menubar>
+	<p:confirmDialog message="#{msgs['msg.logout.sessao']}"
+			header="#{msgs['titulo.sessao.finalizar']}" severity="alert" widgetVar="confirmationLogoff"> 
+		<p:commandButton value="#{msgs['label.sim']}" oncomplete="confirmation.hide()" action="#{loginFacade.logOut()}" />
+		<p:commandButton value="#{msgs['label.nao']}" onclick="confirmation.hide()" type="button" />   
+	</p:confirmDialog> 
+</ui:fragment>

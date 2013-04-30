@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<!-- DEFINE O TEMPLATE A SER UTILIZADO -->
+	<ui:composition template="/templates/common.xhtml">
+
+		<!-- CONTEUDO -->
+		<ui:define name="pageBody">
+
+			<!-- TABELA DE CABECALHO -->
+			<h:form id="formCabecalho">
+				<ui:include src="menu.xhtml" />
+			</h:form>
+
+			<!-- TABELA PRINCIPAL -->
+			<h:form id="formPrincipal" prependId="false">
+				
+				<p:growl id="growl" sticky="true" />
+				
+				<p:panel header="#{msgs['titulo.companhia.list']}">
+					
+						 <p:dataTable value="#{adminFacade.companhiasLazy}" var="companhia" paginator="true" rows="10" lazy="true" paginatorPosition="bottom" >
+		                    <p:column headerText="#{msgs['label.id']}" sortBy="#{companhia.id}" >
+		                        <h:outputText value="#{companhia.id}"/>
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.nome']}" sortBy="#{companhia.nome}" filterBy="#{companhia.nome}">
+	                      		<h:outputText value="#{companhia.nome}"/>
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.email']}" sortBy="#{companhia.email}" filterBy="#{companhia.email}">
+		                        <h:outputText value="#{companhia.email}"/>
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.cnpjcpf']}" sortBy="#{companhia.cnpjCpf}" filterBy="#{companhia.cnpjCpf}">
+		                    	<h:outputText value="#{companhia.cnpjCpf}" converter="cnpjCpfConverter" />
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.editar']}">
+		                       <p:commandButton action="#{adminFacade.editCompanhiaInit(companhia)}" icon="ui-icon-pencil" />
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.excluir']}">
+		                        <p:commandButton onclick="confirmationExcluir.show()" icon="ui-icon-trash">
+		                        	<f:setPropertyActionListener target="#{adminFacade.companhiaSelected}" value="#{companhia}" />
+		                        </p:commandButton>
+		                    </p:column>
+		                </p:dataTable>
+					
+					<p:separator />
+				</p:panel>
+				<p:confirmDialog message="#{msgs['msg.excluir.companhia']}"
+						header="#{msgs['titulo.companhia.excuir']}" severity="alert" widgetVar="confirmationExcluir"> 
+					<p:commandButton value="#{msgs['label.sim']}" oncomplete="confirmationExcluir.hide()" actionListener="#{adminFacade.excluirCompanhia()}" update="@form"/>
+					<p:commandButton value="#{msgs['label.nao']}" onclick="confirmationExcluir.hide()" type="button" />   
+				</p:confirmDialog> 
+			</h:form>
+			
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

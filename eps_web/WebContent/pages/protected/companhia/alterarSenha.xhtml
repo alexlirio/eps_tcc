@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<!-- DEFINE O TEMPLATE A SER UTILIZADO -->
+	<ui:composition template="/templates/common.xhtml">
+
+		<!-- CONTEUDO -->
+		<ui:define name="pageBody">
+
+			<!-- TABELA DE CABECALHO -->
+			<h:form id="formCabecalho">
+				<ui:include src="menu.xhtml" />
+			</h:form>
+			
+			<!-- TABELA PRINCIPAL -->
+			<h:form id="formTrocaSenha">
+				<p:growl id="growl" sticky="true" />
+				<p:panel header="#{msgs['titulo.trocasenha']}">
+					<p:panelGrid styleClass="grid">
+						
+						<p:row >
+							<p:column>
+								<p:outputLabel for="senha" value="#{msgs['label.senha']}:" />
+							</p:column>
+							<p:column>
+								<p:password id="senha" required="true" value="#{loginFacade.senha}" converter="passwordConverter" size="30" maxlength="100" />
+							</p:column>
+							<p:column>
+								<p:message for="senha" display="icon" />
+							</p:column>
+						</p:row>
+						
+						<p:row >
+							<p:column>
+								<p:outputLabel for="novaSenha1" value="#{msgs['label.senha.nova']}:" />
+							</p:column>
+							<p:column>
+								<p:password id="novaSenha1" required="true" value="#{loginFacade.novaSenha}" converter="passwordConverter" size="30" maxlength="100" 
+										match="novaSenha2" feedback="true" validatorMessage="#{msgs['msg.senha.desigual']}"
+										promptLabel="#{msgs['prompt.password.promptLabel']}" weakLabel="#{msgs['prompt.password.weakLabel']}"  
+                        				goodLabel="#{msgs['prompt.password.goodLabel']}" strongLabel="#{msgs['prompt.password.strongLabel']}">
+									<f:validateLength minimum="6" />
+								</p:password>
+							</p:column>
+							<p:column>
+								<p:message for="novaSenha1" display="icon" />
+							</p:column>
+						</p:row>
+						
+						<p:row >
+							<p:column>
+								<p:outputLabel for="novaSenha2" value="#{msgs['label.senha.nova.confirma']}:" />
+							</p:column>
+							<p:column>
+								<p:password id="novaSenha2" required="true" value="#{loginFacade.novaSenha}" converter="passwordConverter" size="30" maxlength="100" feedback="true"
+										promptLabel="#{msgs['prompt.password.promptLabel']}" weakLabel="#{msgs['prompt.password.weakLabel']}"  
+                        				goodLabel="#{msgs['prompt.password.goodLabel']}" strongLabel="#{msgs['prompt.password.strongLabel']}">
+									<f:validateLength minimum="6" />
+								</p:password>
+							</p:column>
+							<p:column>
+								<p:message for="novaSenha2" display="icon" />
+							</p:column>
+						</p:row>
+	
+						<p:row >
+							<p:column>
+								<p:spacer/>
+							</p:column>
+							<p:column>
+								<p:commandButton action="#{loginFacade.trocarSenha()}" value="Trocar Senha" ajax="false"/>
+							</p:column>
+						</p:row>
+						
+					</p:panelGrid>
+				</p:panel>
+			</h:form>
+			<h:form></h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

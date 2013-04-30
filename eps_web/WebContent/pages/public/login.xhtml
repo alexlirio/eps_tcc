@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<!-- DEFINE O TEMPLATE A SER UTILIZADO -->
+	<ui:composition template="/templates/common.xhtml">
+
+		<!-- CONTEUDO -->
+		<ui:define name="pageBody">
+
+			<!-- TABELA PRINCIPAL -->
+			<h:form id="formLogin" onsubmit="document.getElementById('formLogin').action='j_security_check';" prependId="false">
+				<p:growl id="growl" sticky="true" />
+				<p:panel header="#{msgs['titulo.login']}">
+					<p:panelGrid styleClass="grid"  >
+						<p:row >
+							<p:column>
+								<p:outputLabel for="j_username" value="#{msgs['label.login']}:" />
+							</p:column>
+							<p:column>
+								<p:inputText id="j_username" required="true" size="30" maxlength="100" />
+							</p:column>
+							<p:column styleClass="formSubCabecalho">
+								<p:message for="j_username" display="icon" />
+							</p:column>
+						</p:row>
+						<p:row >
+							<p:column>
+								<p:outputLabel for="j_password" value="#{msgs['label.senha']}:" />
+							</p:column>
+							<p:column>
+								<p:password id="j_password" required="true" size="30" maxlength="100" />
+							</p:column>
+							<p:column>
+								<p:message for="j_password" display="icon" />
+							</p:column>
+						</p:row>
+						<p:row >
+							<p:column>
+								<p:spacer/>
+							</p:column>
+							<p:column>
+								<p:commandButton value="#{msgs['label.login']}" ajax="false"/>
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+				</p:panel>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

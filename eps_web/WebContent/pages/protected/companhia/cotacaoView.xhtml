@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<!-- DEFINE O TEMPLATE A SER UTILIZADO -->
+	<ui:composition template="/templates/common.xhtml">
+
+		<!-- CONTEUDO -->
+		<ui:define name="pageBody">
+
+			<!-- TABELA DE CABECALHO -->
+			<h:form id="formCabecalho">
+				<ui:include src="menu.xhtml" />
+			</h:form>
+
+			<!-- TABELA PRINCIPAL -->
+			<h:form id="formPrincipal" prependId="false">
+				
+				<p:growl id="growlCotacao" />
+
+		        <p:tab id="step3">  
+		            <p:panel header="#{msgs['label.cotacao.visualizar']}">
+		             <p:growl />
+		                <p:panelGrid styleClass="grid">
+						
+							<p:row >
+								<p:column>
+								</p:column>
+							</p:row>
+							
+							<p:row >
+								<p:column styleClass="formSubCabecalho">
+									<h:outputText value="#{msgs['titulo.dadosBasicos']}:" styleClass="formSubCabecalho" />
+								</p:column>
+							</p:row>
+											
+							<p:row >
+								<p:column>
+									<p:spacer />
+								</p:column>
+								<p:column>
+									<p:outputLabel for="codigoCotacaoConfirm" value="#{msgs['label.codigo']}:" />
+								</p:column>
+								<p:column>
+									<p:inputText id="codigoCotacaoConfirm" readonly="true" value="#{companhiaFacade.codigoCotacao}" size="20" />
+								</p:column>
+							</p:row>
+											
+							<p:row >
+								<p:column>
+									<p:spacer />
+								</p:column>
+								<p:column>
+									<p:outputLabel for="dtInicioValidadeConfirm" value="#{msgs['label.data.inicio']}:" />
+								</p:column>
+								<p:column>
+									<p:inputText id="dtInicioValidadeConfirm" readonly="true" value="#{companhiaFacade.dtInicioValidade}">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</p:inputText>
+								</p:column>
+							</p:row>
+							
+							<p:row >
+								<p:column>
+									<p:spacer />
+								</p:column>
+								<p:column >
+									<p:outputLabel for="dtFimValidadeConfirm" value="#{msgs['label.data.fim']}:" />
+								</p:column>
+								<p:column>
+									<p:inputText id="dtFimValidadeConfirm" readonly="true" value="#{companhiaFacade.dtFimValidade}">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</p:inputText>
+								</p:column>
+							</p:row>
+						
+							<p:row>
+								<p:column>
+									<p:spacer />
+								</p:column>
+							</p:row>
+							
+							<p:row>
+								<p:column>
+									<h:outputText value="#{msgs['titulo.dadosItemCotacao']}:" styleClass="formSubCabecalho" escape="false" />
+								</p:column>
+							</p:row>
+
+						</p:panelGrid>
+						
+						<p:dataTable id="itensCotacaoTableConfirm" value="#{companhiaFacade.itensCotacao}" var="itemCotacao" style="width:87%; margin-left:115px;">
+				  
+				            <p:column headerText="#{msgs['label.produto']}" style="width:60%;">
+				            	<h:outputText value="#{itemCotacao.produto.nome}" />  
+				            </p:column>  
+				  
+				            <p:column headerText="#{msgs['label.unidadeDeMedida']}" style="width:25%;">
+				            	<h:outputText value="#{itemCotacao.produto.unidadeMedida.nome}" />  
+				            </p:column>  
+				  
+				            <p:column headerText="#{msgs['label.quantidade']}" style="width:15%;">
+		                   		<h:outputText value="#{itemCotacao.qtdProduto}">
+		                   			<f:convertNumber pattern="#,###.####" />
+		                   		</h:outputText>
+				            </p:column>  
+
+				        </p:dataTable>
+				        
+						<p:panelGrid styleClass="grid" style="width: 100%;">
+							<p:row>
+								<p:column>
+									<p:spacer />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="text-align:center;">
+									<p:commandButton action="#{companhiaFacade.listCotacaoInit()}" value="#{msgs['label.voltar']}" ajax="false" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+						
+		            </p:panel>  
+		        </p:tab> 
+		        
+			</h:form>
+			
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

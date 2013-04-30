@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<!-- INFO ##################################################################################################
+
+	Este é o template padrão para o sistema de EPS.
+	
+CSS IMPORT	-> Tag do JSF2 de importação de folhas de estilo, seguindo o padrão JEE6 (resources).
+PAGE HEADER -> Define a área do cabeçalho da página.
+PAGE BODY 	-> Define a área do corpo da página, onde entra o conteúdo do sistema.
+PAGE FOOTER	-> Define a área do rodapé da página.
+
+Estilos definidos em library="css" name="template.css"
+
+####################################################################################################### -->
+
+<h:head>
+<title>#{msgs['titulo.aplicacao']}</title>
+</h:head>
+
+<h:body>
+
+	<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>  
+              
+	<p:dialog widgetVar="statusDialog" header="#{msgs['titulo.status.bar']}" draggable="false" closable="false" resizable="false" >
+	    <p:graphicImage library="images" name="ajax_loading.gif" />
+	</p:dialog> 
+
+	<!-- CSS IMPORT -->
+	<h:outputStylesheet library="css" name="template.css" />
+	<h:outputScript library="js" name="application_util.js" />
+
+	<div class="page">
+
+		<!-- PAGE HEADER -->
+		<div class="header">
+			<ui:insert name="pageHeader">
+				<p:graphicImage library="images" name="header.png" style="width:100%;" />
+			</ui:insert>
+		</div>
+		<!-- ########## -->
+
+		<!-- PAGE BODY -->
+		<div class="content" style="width:96%; min-height:350px;">
+			<ui:insert name="pageBody">-- PAGE BODY --</ui:insert>
+		</div>
+		<!-- ########## -->
+
+		<!-- PAGE FOOTER -->
+		<div class="footer">
+			<ui:insert name="pageFooter">
+				<p:graphicImage library="images" name="footer.png" style="width:100%;" />
+			</ui:insert>
+		</div>
+		<!-- ########## -->
+
+	</div>
+
+</h:body>
+
+</html>

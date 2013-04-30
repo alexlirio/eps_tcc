@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<!-- DEFINE O TEMPLATE A SER UTILIZADO -->
+	<ui:composition template="/templates/common.xhtml">
+
+		<!-- CONTEUDO -->
+		<ui:define name="pageBody">
+
+			<!-- TABELA DE CABECALHO -->
+			<h:form id="formCabecalho">
+				<ui:include src="menu.xhtml" />
+			</h:form>
+
+			<!-- TABELA PRINCIPAL -->
+			<h:form id="formPrincipal" prependId="false">
+				
+				<p:growl id="growl" sticky="true" />
+				
+				<p:panel header="#{msgs['titulo.cotacao.list']}">
+					
+						 <p:dataTable value="#{companhiaFacade.cotacoesLazy}" var="cotacao" paginator="true" rows="10" lazy="true" paginatorPosition="bottom" >
+		                    <p:column headerText="#{msgs['label.id']}" sortBy="#{cotacao.id}" >
+		                        <h:outputText value="#{cotacao.id}"/>
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.codigo']}" sortBy="#{cotacao.codigo}" filterBy="#{cotacao.codigo}">
+	                      		<h:outputText value="#{cotacao.codigo}"/>
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.fonecedor']}">
+		                    	<h:outputText value="#{cotacao.fornecedor.nome}" />
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.status']}">
+		                        <h:outputText value="#{cotacao.statusCotacao.label}"/>
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.visualizar']}">
+		                       <p:commandButton action="#{companhiaFacade.viewCotacaoInit(cotacao)}" icon="ui-icon-search" />
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.excluir']}">
+		                        <p:commandButton onclick="confirmationExcluir.show()" icon="ui-icon-trash" rendered="#{cotacao.excluivel}" >
+		                        	<f:setPropertyActionListener target="#{companhiaFacade.cotacaoSelected}" value="#{cotacao}" />
+		                        </p:commandButton>
+		                    </p:column>
+							<p:column headerText="#{msgs['label.exportar']}">
+								<p:commandButton action="#{companhiaFacade.exportarCotacao(cotacao)}" icon="ui-icon-document" rendered="#{cotacao.exportavel}" ajax="false" />
+							</p:column>
+		                </p:dataTable>
+					
+					<p:separator />
+				</p:panel>
+				<p:confirmDialog message="#{msgs['msg.excluir.cotacao']}"
+						header="#{msgs['titulo.cotacao.excuir']}" severity="alert" widgetVar="confirmationExcluir"> 
+					<p:commandButton value="#{msgs['label.sim']}" oncomplete="confirmationExcluir.hide()" actionListener="#{companhiaFacade.excluirCotacao()}" update="@form"/>
+					<p:commandButton value="#{msgs['label.nao']}" onclick="confirmationExcluir.hide()" type="button" />   
+				</p:confirmDialog> 
+			</h:form>
+			
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

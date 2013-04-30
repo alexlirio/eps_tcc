@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<!-- DEFINE O TEMPLATE A SER UTILIZADO -->
+	<ui:composition template="/templates/common.xhtml">
+
+		<!-- CONTEUDO -->
+		<ui:define name="pageBody">
+
+			<!-- TABELA DE CABECALHO -->
+			<h:form id="formCabecalho">
+				<ui:include src="menu.xhtml" />
+			</h:form>
+
+			<!-- TABELA PRINCIPAL -->
+			<h:form id="formPrincipal" prependId="false">
+				
+				<p:growl id="msg" showDetail="true" escape="false" />
+				
+				<p:panel header="#{msgs['titulo.fornecedor.produtos']}">
+					
+					<p:panelGrid styleClass="grid">
+					
+						<p:row >
+							<p:column style="width: 20%">
+								<p:spacer/>
+							</p:column>
+							<p:column>
+								<p:pickList id="produtoPickList" value="#{companhiaFacade.produtosDualListModel}" converter="produtoConverter"
+										var="produto" itemLabel="#{produto.nome}" itemValue="#{produto}"
+										showSourceControls="true" showTargetControls="true" showCheckbox="true"  
+			                    		showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains">
+									
+									<p:column style="width: 100%; text-align: left"> 
+					                    #{produto.nome}
+					                </p:column >
+					                
+					                <p:ajax event="transfer" listener="#{companhiaFacade.onTransferProdutoFornecedor}" update="msg" />
+			                
+									<f:facet name="sourceCaption">#{msgs['label.produtos.cadastrados']}</f:facet>  
+			        				<f:facet name="targetCaption">#{companhiaFacade.fornecedor.nome} #{msgs['label.produtos']}</f:facet> 
+									
+								</p:pickList>
+							</p:column>
+							<p:column style="width: 20%">
+								<p:spacer/>
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+					<p:separator />
+				</p:panel>
+			</h:form>
+			
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

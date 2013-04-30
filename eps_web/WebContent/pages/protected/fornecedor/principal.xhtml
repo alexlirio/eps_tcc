@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<!-- DEFINE O TEMPLATE A SER UTILIZADO -->
+	<ui:composition template="/templates/common.xhtml">
+
+		<!-- CONTEUDO -->
+		<ui:define name="pageBody">
+
+			<!-- TABELA DE CABECALHO -->
+			<h:form id="formCabecalho">
+				<ui:include src="menu.xhtml" />
+			</h:form>
+
+			<!-- TABELA PRINCIPAL -->
+			<h:form id="formPrincipal" prependId="false">
+				
+				<p:growl id="growl" sticky="true" />
+				
+				<p:panel header="#{msgs['titulo.cotacao.list']}">
+					
+						 <p:dataTable value="#{fornecedorFacade.cotacoesFornecedorLazy}" var="cotacao" paginator="true" rows="10" lazy="true" paginatorPosition="bottom" >
+		                    <p:column headerText="#{msgs['label.id']}" sortBy="#{cotacao.id}" >
+		                        <h:outputText value="#{cotacao.id}"/>
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.codigo']}" sortBy="#{cotacao.codigo}" filterBy="#{cotacao.codigo}">
+	                      		<h:outputText value="#{cotacao.codigo}"/>
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.data.inicioValidade']}">
+		                    	<h:outputText value="#{cotacao.dtInicioValidade}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.data.fimValidade']}">
+		                    	<h:outputText value="#{cotacao.dtFimValidade}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.responder']}">
+		                       <p:commandButton action="#{fornecedorFacade.responderCotacaoInit(cotacao)}" icon="ui-icon-pencil" />
+		                    </p:column>
+		                </p:dataTable>
+		                
+					<p:separator />
+				</p:panel>
+			</h:form>
+			
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

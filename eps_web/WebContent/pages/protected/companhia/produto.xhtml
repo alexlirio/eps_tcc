@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<!-- DEFINE O TEMPLATE A SER UTILIZADO -->
+	<ui:composition template="/templates/common.xhtml">
+
+		<!-- CONTEUDO -->
+		<ui:define name="pageBody">
+
+			<!-- TABELA DE CABECALHO -->
+			<h:form id="formCabecalho">
+				<ui:include src="menu.xhtml" />
+			</h:form>
+
+			<!-- TABELA PRINCIPAL -->
+			<h:form id="formPrincipal" prependId="false">
+				
+				<p:growl id="growl" sticky="true" />
+			
+				<p:panel header="#{msgs['titulo.produto']}">
+				
+					<p:panelGrid styleClass="grid">
+					
+						<p:row >
+							<p:column>
+							</p:column>
+						</p:row>
+						
+						<p:row >
+							<p:column styleClass="formSubCabecalho">
+								<h:outputText value="#{msgs['titulo.dadosBasicos']}:" styleClass="formSubCabecalho" />
+							</p:column>
+						</p:row>
+										
+						<p:row >
+							<p:column>
+								<p:spacer />
+							</p:column>
+							<p:column>
+								<p:outputLabel for="codigo" value="#{msgs['label.codigo']}:" />
+							</p:column>
+							<p:column>
+								<p:inputText id="codigo" required="true" value="#{companhiaFacade.produto.codigo}" size="20" maxlength="20" onkeydown="return mascaraUtil(this,numbers)" rendered="#{!companhiaFacade.editProduto}" />
+								<p:inputText value="#{companhiaFacade.produto.codigo}" readonly="true" size="20" rendered="#{companhiaFacade.editProduto}" />
+							</p:column>
+							<p:column>
+								<p:message for="codigo" display="icon" />
+							</p:column>
+						</p:row>
+						
+						<p:row >
+							<p:column>
+								<p:spacer />
+							</p:column>
+							<p:column >
+								<p:outputLabel for="nome" value="#{msgs['label.nome']}:" />
+							</p:column>
+							<p:column colspan="4">
+								<p:inputText id="nome" required="true" value="#{companhiaFacade.produto.nome}" size="50" maxlength="50" />
+							</p:column>
+							<p:column>
+								<p:message for="nome" display="icon" />
+							</p:column>
+						</p:row>
+						
+						<p:row >
+							<p:column>
+								<p:spacer />
+							</p:column>
+							<p:column >
+								<p:outputLabel for="descricao" value="#{msgs['label.descricao']}:" />
+							</p:column>
+							<p:column colspan="4">
+								<p:inputText id="descricao" required="true" value="#{companhiaFacade.produto.descricao}" size="120" maxlength="240" />
+							</p:column>
+							<p:column>
+								<p:message for="descricao" display="icon" />
+							</p:column>
+						</p:row>
+					
+						<p:row >
+							<p:column>
+								<p:spacer />
+							</p:column>
+							<p:column>
+								<p:outputLabel for="unidadeMedida" value="#{msgs['label.unidade.medida']}:" />
+							</p:column>
+							<p:column>
+								<p:selectOneMenu id="unidadeMedida" value="#{companhiaFacade.produto.unidadeMedida}" required="true" converter="unidadeMedidaConverter">  
+						            <f:selectItem itemLabel="#{msgs['label.selectOne']}" itemValue="" />  
+						            <f:selectItems value="#{companhiaFacade.unidadesMedida}" var="itemSel" itemValue="#{itemSel}" itemLabel="#{itemSel.nome}" />
+									<p:ajax update="@this" />
+						        </p:selectOneMenu> 
+							</p:column>
+							<p:column>
+								<p:message for="unidadeMedida" display="icon" />
+							</p:column>
+						</p:row>
+						
+						<p:row>
+							<p:column>
+								<p:spacer />
+							</p:column>
+						</p:row>
+						
+						<p:row >
+							<p:column>
+								<p:spacer />
+							</p:column>
+							<p:column>
+								 <p:spacer />
+							</p:column>
+							<p:column style="width: 100px;">
+								<p:commandButton action="#{companhiaFacade.saveProduto()}" value="#{msgs['label.salvar']}" ajax="false" rendered="#{!companhiaFacade.editProduto}" />
+								<p:commandButton action="#{companhiaFacade.updateProduto()}" value="#{msgs['label.atualizar']}" ajax="false" rendered="#{companhiaFacade.editProduto}" />
+								<p:spacer width="10" />
+								<p:commandButton value="#{msgs['label.limpar']}" type="reset" rendered="#{!companhiaFacade.editProduto}" />  
+							</p:column>
+						</p:row>
+				
+						<p:row >
+							<p:column>
+							</p:column>
+						</p:row>
+
+					</p:panelGrid>
+					
+					<p:separator />
+
+				</p:panel>
+			</h:form>
+			
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

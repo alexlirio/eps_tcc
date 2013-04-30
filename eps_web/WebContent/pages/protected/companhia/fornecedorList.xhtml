@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<!-- DEFINE O TEMPLATE A SER UTILIZADO -->
+	<ui:composition template="/templates/common.xhtml">
+
+		<!-- CONTEUDO -->
+		<ui:define name="pageBody">
+
+			<!-- TABELA DE CABECALHO -->
+			<h:form id="formCabecalho">
+				<ui:include src="menu.xhtml" />
+			</h:form>
+
+			<!-- TABELA PRINCIPAL -->
+			<h:form id="formPrincipal" prependId="false">
+				
+				<p:growl id="growl" sticky="true" />
+				
+				<p:panel header="#{msgs['titulo.fornecedor.list']}">
+					
+						 <p:dataTable value="#{companhiaFacade.fornecedoresLazy}" var="fornecedor" paginator="true" rows="10" lazy="true" paginatorPosition="bottom" >
+		                    <p:column headerText="#{msgs['label.id']}" sortBy="#{fornecedor.id}" >
+		                        <h:outputText value="#{fornecedor.id}"/>
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.nome']}" sortBy="#{fornecedor.nome}" filterBy="#{fornecedor.nome}">
+	                      		<h:outputText value="#{fornecedor.nome}"/>
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.email']}" sortBy="#{fornecedor.email}" filterBy="#{fornecedor.email}">
+		                        <h:outputText value="#{fornecedor.email}"/>
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.cnpjcpf']}" sortBy="#{fornecedor.cnpjCpf}" filterBy="#{fornecedor.cnpjCpf}">
+		                    	<h:outputText value="#{fornecedor.cnpjCpf}" converter="cnpjCpfConverter" />
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.produtos']}">
+		                       <p:commandButton action="#{companhiaFacade.editFornecedorProdutosInit(fornecedor)}" icon="ui-icon-suitcase" />
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.editar']}">
+		                       <p:commandButton action="#{companhiaFacade.editFornecedorInit(fornecedor)}" icon="ui-icon-pencil" />
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.excluir']}">
+		                        <p:commandButton onclick="confirmationExcluir.show()" icon="ui-icon-trash">
+		                        	<f:setPropertyActionListener target="#{companhiaFacade.fornecedorSelected}" value="#{fornecedor}" />
+		                        </p:commandButton>
+		                    </p:column>
+		                </p:dataTable>
+					
+					<p:separator />
+				</p:panel>
+				<p:confirmDialog message="#{msgs['msg.excluir.fornecedor']}"
+						header="#{msgs['titulo.fornecedor.excuir']}" severity="alert" widgetVar="confirmationExcluir"> 
+					<p:commandButton value="#{msgs['label.sim']}" oncomplete="confirmationExcluir.hide()" actionListener="#{companhiaFacade.excluirFornecedor()}" update="@form"/>
+					<p:commandButton value="#{msgs['label.nao']}" onclick="confirmationExcluir.hide()" type="button" />   
+				</p:confirmDialog> 
+			</h:form>
+			
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

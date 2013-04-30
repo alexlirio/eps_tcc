@@ -1,0 +1,320 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<!-- DEFINE O TEMPLATE A SER UTILIZADO -->
+	<ui:composition template="/templates/common.xhtml">
+
+		<!-- CONTEUDO -->
+		<ui:define name="pageBody">
+
+			<!-- TABELA DE CABECALHO -->
+			<h:form id="formCabecalho">
+				<ui:include src="menu.xhtml" />
+			</h:form>
+
+			<!-- TABELA PRINCIPAL -->
+			<h:form id="formPrincipal" prependId="false">
+				
+				<p:growl id="growl" sticky="true" />
+			
+				<p:panel header="#{msgs['titulo.fornecedor']}">
+				
+					<p:panelGrid styleClass="grid">
+					
+						<p:row >
+							<p:column>
+							</p:column>
+						</p:row>
+						
+						<p:row >
+							<p:column styleClass="formSubCabecalho">
+								<h:outputText value="#{msgs['titulo.dadosBasicos']}:" styleClass="formSubCabecalho" />
+							</p:column>
+						</p:row>
+						
+						<p:row >
+							<p:column>
+								<p:spacer />
+							</p:column>
+							<p:column >
+								<p:outputLabel for="nome" value="#{msgs['label.nome']}:" />
+							</p:column>
+							<p:column colspan="4">
+								<p:inputText id="nome" required="true" value="#{companhiaFacade.fornecedor.nome}" size="100" maxlength="100" />
+							</p:column>
+							<p:column>
+								<p:message for="nome" display="icon" />
+							</p:column>
+						</p:row>
+						
+						<p:row >
+							<p:column>
+								<p:spacer />
+							</p:column>
+							<p:column>
+								<p:outputLabel for="email" value="#{msgs['label.email']}:" />
+							</p:column>
+							<p:column colspan="2">
+								<p:inputText id="email" required="true" value="#{companhiaFacade.fornecedor.email}" size="50" maxlength="100" rendered="#{!companhiaFacade.editFornecedor}">
+									<f:validator validatorId="EmailValidator" />
+								</p:inputText>
+								<p:inputText value="#{companhiaFacade.fornecedor.email}" size="50" readonly="true" rendered="#{companhiaFacade.editFornecedor}"/>
+							</p:column>
+							<p:column>
+								<p:message for="email" display="icon" />
+							</p:column>
+						</p:row>
+						
+						<p:row >
+							<p:column>
+								<p:spacer />
+							</p:column>
+							<p:column>
+								<p:outputLabel for="cnpjCpf" value="#{msgs['label.cnpjcpf']}:" />
+							</p:column>
+							<p:column>
+								<p:inputText id="cnpjCpf" required="true" value="#{companhiaFacade.fornecedor.cnpjCpf}" size="18" maxlength="18" onkeydown="return mascaraUtil(this,cpfCnpj)" onblur="validateLength(this,14,18)" converter="cnpjCpfConverter" rendered="#{!companhiaFacade.editFornecedor}">
+									<f:validator validatorId="CpfCnpjValidator" />
+								</p:inputText>
+								<p:inputText value="#{companhiaFacade.fornecedor.cnpjCpf}" size="18" readonly="true" converter="cnpjCpfConverter" rendered="#{companhiaFacade.editFornecedor}" />
+							</p:column>
+							<p:column>
+								<p:message for="cnpjCpf" display="icon" />
+							</p:column>
+						</p:row>
+						
+						<p:row >
+							<p:column>
+								<p:spacer />
+							</p:column>
+							<p:column>
+								<p:outputLabel for="tipoTelefone" value="#{msgs['label.tipoTelefone']}:" />
+							</p:column>
+							<p:column>
+								<p:selectOneMenu id="tipoTelefone" value="#{companhiaFacade.telefone.tipoTelefone}" required="true">  
+						            <f:selectItem itemLabel="#{msgs['label.selectOne']}" itemValue="" />  
+						            <f:selectItems value="#{companhiaFacade.tiposTelefones}" />
+						             <p:ajax update="@this" />  
+						        </p:selectOneMenu> 
+							</p:column>
+							<p:column>
+								<p:message for="tipoTelefone" display="icon" />
+							</p:column>
+						</p:row>
+						
+						<p:row >
+							<p:column>
+								<p:spacer />
+							</p:column>
+							<p:column>
+								<p:outputLabel for="telefone" value="#{msgs['label.telefone']}:" />
+							</p:column>
+							<p:column>
+								<p:inputText id="telefone" required="true" value="#{companhiaFacade.telefone.numero}" size="15" maxlength="15" onkeydown="return mascaraUtil(this,tel)" onblur="validateLength(this,14,15)" converter="telefoneConverter" />
+							</p:column>
+							<p:column>
+								<p:message for="telefone" display="icon" />
+							</p:column>
+						</p:row>
+						
+						<p:row >
+							<p:column>
+								<p:spacer />
+							</p:column>
+							<p:column>
+								<p:outputLabel for="tipoEndereco" value="#{msgs['label.tipoEndereco']}:" />
+							</p:column>
+							<p:column>
+								<p:selectOneMenu id="tipoEndereco" value="#{companhiaFacade.endereco.tipoEndereco}" required="true">  
+						            <f:selectItem itemLabel="#{msgs['label.selectOne']}" itemValue="" />  
+						            <f:selectItems value="#{companhiaFacade.tiposEnderecos}" />
+						             <p:ajax update="@this" />  
+						        </p:selectOneMenu>
+							</p:column>
+							<p:column>
+								<p:message for="tipoEndereco" display="icon" />
+							</p:column>
+						</p:row>
+						
+						<p:row >
+							<p:column>
+								<p:spacer />
+							</p:column>
+							<p:column>
+								<p:outputLabel for="logradouro" value="#{msgs['label.logradouro']}:" />
+							</p:column>
+							<p:column colspan="4">
+								<p:inputText id="logradouro" required="true" value="#{companhiaFacade.endereco.logradouro}" size="100" maxlength="150" />
+							</p:column>
+							<p:column>
+								<p:message for="logradouro" display="icon" />
+							</p:column>
+						</p:row>
+						
+						<p:row >
+							<p:column>
+								<p:spacer />
+							</p:column>
+							<p:column>
+								<p:outputLabel for="numero" value="#{msgs['label.numero']}:" />
+							</p:column>
+							<p:column>
+								<p:inputText id="numero" value="#{companhiaFacade.endereco.numero}" size="10" maxlength="10" />
+							</p:column>
+							<p:column>
+								<p:message for="numero" display="icon" />
+							</p:column>
+						</p:row>
+						
+						<p:row >
+							<p:column>
+								<p:spacer />
+							</p:column>
+							<p:column>
+								<p:outputLabel for="complemento" value="#{msgs['label.complemento']}:" />
+							</p:column>
+							<p:column colspan="2">
+								<p:inputText id="complemento" value="#{companhiaFacade.endereco.complemento}" size="50" maxlength="50" />
+							</p:column>
+							<p:column>
+								<p:message for="complemento" display="icon" />
+							</p:column>
+						</p:row>
+
+					</p:panelGrid>
+						
+					<p:panelGrid id="paisUfMunicipioPanel" styleClass="grid">
+					
+						<p:row >
+							<p:column>
+								<p:spacer />
+							</p:column>
+							<p:column>
+								<p:outputLabel for="pais" value="#{msgs['label.pais']}:" />
+							</p:column>
+							<p:column>
+								<p:selectOneMenu id="pais" value="#{companhiaFacade.pais}" required="true" converter="paisConverter">  
+						            <f:selectItem itemLabel="#{msgs['label.selectOne']}" itemValue="" />  
+						            <f:selectItems value="#{companhiaFacade.paises}" var="itemSel" itemValue="#{itemSel}" itemLabel="#{itemSel.nome}" />
+						            <p:ajax listener="#{companhiaFacade.paisChanged()}" update="paisUfMunicipioPanel" />
+						        </p:selectOneMenu> 
+							</p:column>
+							<p:column>
+								<p:message for="pais" display="icon" />
+							</p:column>
+						</p:row>
+						
+						<p:row rendered="#{companhiaFacade.paisHasUfs()}" >
+							<p:column>
+								<p:spacer />
+							</p:column>
+							<p:column>
+								<p:outputLabel for="uf" value="#{msgs['label.uf']}:" />
+							</p:column>
+							<p:column>
+								<p:selectOneMenu id="uf" value="#{companhiaFacade.uf}" required="true" converter="ufConverter" >  
+						            <f:selectItem itemLabel="#{msgs['label.selectOne']}" itemValue="" />  
+						            <f:selectItems value="#{companhiaFacade.ufs}" var="itemSel" itemValue="#{itemSel}" itemLabel="#{itemSel.nome}" />
+						            <p:ajax update="municipio"/>
+						        </p:selectOneMenu>
+							</p:column>
+							<p:column>
+								<p:message for="uf" display="icon" />
+							</p:column>
+						</p:row>
+						
+						<p:row >
+							<p:column>
+								<p:spacer />
+							</p:column>
+							<p:column>
+								<p:outputLabel for="municipio" value="#{msgs['label.municipio']}:" rendered="#{companhiaFacade.paisHasUfs()}" />
+							</p:column>
+							<p:column>
+								<p:selectOneMenu id="municipio" value="#{companhiaFacade.municipio}" required="true" converter="municipioConverter" rendered="#{companhiaFacade.paisHasUfs()}">  
+						            <f:selectItem itemLabel="#{msgs['label.selectOne']}" itemValue="" />  
+						            <f:selectItems value="#{companhiaFacade.municipios}" var="itemSel" itemValue="#{itemSel}" itemLabel="#{itemSel.nome}" />
+						        </p:selectOneMenu>
+							</p:column>
+							<p:column>
+								<p:message for="municipio" display="icon" rendered="#{companhiaFacade.paisHasUfs()}" />
+							</p:column>
+						</p:row>
+						
+						
+					</p:panelGrid>
+						
+					<p:panelGrid styleClass="grid">
+						
+						<p:row >
+							<p:column>
+								<p:spacer />
+							</p:column>
+							<p:column>
+								<p:outputLabel for="bairro" value="#{msgs['label.bairro']}:" />
+							</p:column>
+							<p:column colspan="2">
+								<p:inputText id="bairro" required="true" value="#{companhiaFacade.endereco.bairro}" size="50" maxlength="50" />
+							</p:column>
+							<p:column>
+								<p:message for="bairro" display="icon" />
+							</p:column>
+						</p:row>
+						
+						<p:row >
+							<p:column>
+								<p:spacer />
+							</p:column>
+							<p:column>
+								<p:outputLabel for="cep" value="#{msgs['label.cep']}:" />
+							</p:column>
+							<p:column>
+								 <p:inputMask id="cep" required="true" value="#{companhiaFacade.endereco.cep}" mask="99999-999" converter="cepConverter"/> 
+							</p:column>
+							<p:column>
+								<p:message for="cep" display="icon" />
+							</p:column>
+						</p:row>
+						
+						<p:row>
+							<p:column>
+								<p:spacer />
+							</p:column>
+						</p:row>
+						
+						<p:row >
+							<p:column>
+								<p:spacer />
+							</p:column>
+							<p:column>
+								 <p:spacer />
+							</p:column>
+							<p:column style="width: 100px;">
+								<p:commandButton action="#{companhiaFacade.saveFornecedor()}" value="#{msgs['label.salvar']}" ajax="false" rendered="#{!companhiaFacade.editFornecedor}" />
+								<p:commandButton action="#{companhiaFacade.updateFornecedor()}" value="#{msgs['label.atualizar']}" ajax="false" rendered="#{companhiaFacade.editFornecedor}" />
+								<p:spacer width="10" />
+								<p:commandButton value="#{msgs['label.limpar']}" type="reset" rendered="#{!companhiaFacade.editFornecedor}" />  
+							</p:column>
+						</p:row>
+				
+						<p:row >
+							<p:column>
+							</p:column>
+						</p:row>
+
+					</p:panelGrid>
+					
+					<p:separator />
+
+				</p:panel>
+			</h:form>
+			
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

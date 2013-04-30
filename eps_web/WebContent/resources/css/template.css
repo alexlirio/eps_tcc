@@ -1,0 +1,167 @@
+/*********************************
+	REGRAS GLOBAIS
+*********************************/
+body {
+	margin: 0;
+	padding: 0;
+	padding-top: 50px;
+	background-color: #005B5B;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	text-align: center;
+}
+
+#formCabecalho {
+	text-align: left;
+	font-weight: bold;
+	font-size: 11px;
+}
+
+#formPrincipal {
+	padding-top: 5px;
+}
+
+#formMessage {
+	width: 900px;
+	height: 250px;
+	padding-top: 130px;
+	font-size: 15px;
+}
+
+#formLogin {
+	width: 420px;
+	padding-top: 80px;
+	padding-left: 245px;
+	font-size: 11px;
+	text-align: left;
+}
+
+#formTrocaSenhaInicial {
+	width: 720px;
+	padding-top: 40px;
+	padding-left: 93px;
+	font-size: 11px;
+	text-align: left;
+}
+
+#formTrocaSenha {
+	width: 420px;
+	padding-top: 40px;
+	padding-left: 245px;
+	font-size: 11px;
+	text-align: left;
+}
+
+.grid tr, .grid td {
+	border: none;
+    text-align: left;
+    width: 85px;
+}
+
+.formSubCabecalho {
+    text-align: left;
+	font-weight: bold;
+	font-size: 11px;
+}
+
+/* Correcao para largura do label do elemento no Chrome */
+label.ui-selectonemenu-label {
+	min-width: 100%;
+}
+
+/*********************************
+	REGRAS DA TABELA DE TELEFONE
+*********************************/
+.tipoTelefoneColumn {
+	width: 20px;
+}
+.telefoneColumn {  
+	width: 55px;  
+}
+ 
+.linkColumn {  
+	width: 10px;  
+}  
+
+/*********************************
+	AREA DE EXIBICAO DA PAGINA
+*********************************/
+.page {
+	margin: 0 auto;
+	width: 950px;
+	background-color: #ffffff;
+	border: 1px solid #ffffff;
+}
+
+/*********************************
+	CONTAINER DO CABECALHO
+*********************************/
+.header {
+	margin: 0;
+	padding: 0;
+	background-color: #AAAAAA;
+	width: 100%;
+}
+
+/*********************************
+	CONTAINER PARA O CONTEUDO
+*********************************/
+.content {
+	margin: 0 auto;
+	padding: 10px;
+	width: 100%;
+	border: 0;
+}
+
+/* CAMPO DO CABECALHO */
+.campo1 {
+	margin-bottom: 15px;	
+}
+
+/* CAMPO DO CABECALHO */
+.campo2 {
+	margin-bottom: 15px;
+}
+
+/* CAMPO DO CABECALHO */
+.campo3 {
+	margin-bottom: 15px;
+}
+
+/* CAMPO DO CABECALHO */
+.campo4 {
+	margin-bottom: 15px;
+}
+
+/* TABELA COM ITENS */
+.contentTable{
+	margin: 0 auto;
+	width: 910px;
+
+}
+
+/* DEFINE ESTILO DAS COLUNAS PEQUENAS */
+#smallColumn {
+	margin: 0 auto;
+	width: 25px;
+}
+
+/* DEFINE ESTILO DAS COLUNAS GRANDES */
+#bigColumn {
+	margin: 0 auto;
+	width: 500px;
+}
+
+/********************************
+	CONTAINER PARA O RODAPE
+*********************************/
+.footer {
+	margin: 0;
+	padding: 0;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8px;
+	color: #DDDDDD;
+	vertical-align: middle;
+	background-color: #AAAAAA;
+}
+

@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<!-- DEFINE O TEMPLATE A SER UTILIZADO -->
+	<ui:composition template="/templates/common.xhtml">
+
+		<!-- CONTEUDO -->
+		<ui:define name="pageBody">
+
+			<!-- TABELA DE CABECALHO -->
+			<h:form id="formCabecalho">
+				<ui:include src="menu.xhtml" />
+			</h:form>
+
+			<!-- TABELA PRINCIPAL -->
+			<h:form id="formPrincipal" prependId="false">
+				
+				<p:growl id="growl" sticky="true" />
+				
+				<p:panel header="#{msgs['titulo.cotacao']}">
+					
+						<p:dataTable id="itensCotacaoTable" value="#{fornecedorFacade.itensCotacao}" var="itemCotacao" editable="true" paginator="true" rows="10" paginatorPosition="bottom" >
+						
+							<p:ajax event="rowEdit" listener="#{fornecedorFacade.onEditRow}" update="itensCotacaoTable" />  
+        					<p:ajax event="rowEditCancel" update="itensCotacaoTable" /> 
+        
+							<p:column headerText="#{msgs['label.produto']}" style="width:50%">
+		                        <h:outputText value="#{itemCotacao.produto.nome}"/>
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.quantidade']}" style="width:15%">
+	                      		<h:outputText value="#{itemCotacao.qtdProduto}" rendered="#{!itemCotacao.produto.unidadeMedida.hasCadasDecimais()}">
+					            	<f:convertNumber pattern="#0" />
+					            </h:outputText>  
+	                      		<h:outputText value="#{itemCotacao.qtdProduto}" rendered="#{itemCotacao.produto.unidadeMedida.hasCadasDecimais()}">
+					            	<f:convertNumber pattern="#.0000" />
+					            </h:outputText>  
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.unidade.medida']}" style="width:15%">
+	                      		<h:outputText value="#{itemCotacao.produto.unidadeMedida.nome} (#{itemCotacao.produto.unidadeMedida.sigla})" />
+		                    </p:column>
+		                    <p:column headerText="#{msgs['label.valor.total']}" style="width:14%">
+		                    	<p:cellEditor>  
+					                <f:facet name="output">  
+					                    <h:outputText value="#{itemCotacao.valorTotal}">
+					                    	<f:convertNumber pattern="#,##0.00" />
+					                    </h:outputText>
+					                </f:facet>  
+					                <f:facet name="input">  
+					                    <p:inputText value="#{itemCotacao.valorTotal}" onkeydown="return mascaraUtil(this,numbersFloatPointTwo)" maxlength="10" style="width:100%">
+					                    	<f:convertNumber pattern="#,###.##" />
+					                    </p:inputText>  
+					                </f:facet>  
+					            </p:cellEditor>
+		                    </p:column>
+						    <p:column style="width:6%">  
+				            	<p:rowEditor />  
+				        	</p:column> 
+		                </p:dataTable>
+		                
+		                <p:panelGrid styleClass="grid" style="width: 100%;">
+								<p:row>
+									<p:column>
+										<p:spacer />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column style="text-align:center;">
+										<p:commandButton value="#{msgs['label.finalizar']}" onclick="confirmationFinalizar.show()" />
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+					
+					<p:separator />
+				</p:panel>
+				<p:confirmDialog header="#{msgs['titulo.cotacao.excuir']}" severity="alert" widgetVar="confirmationFinalizar">
+					<f:facet name="message">
+						<h:outputText value="#{msgs['msg.finalizar.cotacao']}" escape="false" />
+					</f:facet> 
+					<p:commandButton value="#{msgs['label.sim']}" oncomplete="confirmationFinalizar.hide()" action="#{fornecedorFacade.finalizarCotacao()}" update="@form"/>
+					<p:commandButton value="#{msgs['label.nao']}" onclick="confirmationFinalizar.hide()" type="button" />   
+				</p:confirmDialog> 
+			</h:form>
+			
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
